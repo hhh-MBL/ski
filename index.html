@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown to January 19, 2024</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to the top */
+            padding-top: 20vh; /* Push the content down to 70% of the screen height */
+            height: 100vh;
+            background-color: black;
+            color: white;
+            margin: 0;
+            overflow: hidden;
+        }
+
+
+        #countdown {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        #countdown h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        #countdown .time-box {
+            display: inline-block;
+            margin: 0 15px;
+            text-align: center;
+        }
+
+        #countdown .time-box span {
+            display: block;
+            font-size: 60px;
+            font-weight: bold;
+        }
+
+        #countdown .time-box label {
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .mountain {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: auto;
+            z-index: 1;
+        }
+
+        .skier {
+            position: absolute;
+            width: 80px;
+            animation: skiDown 6s linear infinite;
+            top: 75%;
+            left: -80px;
+            z-index: 2;
+        }
+
+        @keyframes skiDown {
+            0% {
+                transform: translateX(0) translateY(-20vh) rotate(15deg);
+            }
+            20% {
+                transform: translateX(20vw) translateY(-8vh) rotate(6deg);
+            }
+            40% {
+                transform: translateX(40vw) translateY(-5vh) rotate(2deg);
+            }
+            60% {
+                transform: translateX(60vw) translateY(-6vh) rotate(1deg);
+            }
+            80% {
+                transform: translateX(80vw) translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateX(106vw) translateY(-1vh) rotate(4deg);
+            }
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            opacity: 0.8;
+            width: 5px;
+            height: 5px;
+            animation: fall linear infinite;
+            animation-duration: 4s; /* Set the duration to 4 seconds */
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+            100% {
+                transform: translateY(100vh) translateX(20px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="countdown">
+        <h1>Countdown to January 19, 2024</h1>
+        <div class="time-box">
+            <span id="days"></span>
+            <label>Days</label>
+        </div>
+        <div class="time-box">
+            <span id="hours"></span>
+            <label>Hours</label>
+        </div>
+        <div class="time-box">
+            <span id="minutes"></span>
+            <label>Minutes</label>
+        </div>
+        <div class="time-box">
+            <span id="seconds"></span>
+            <label>Seconds</label>
+        </div>
+    </div>
+
+    <img src="moun.png" class="mountain" alt="Mountain">
+    <img src="skier.png" class="skier" alt="Skier Animation">
+
+    <script>
+        // Set the date we're counting down to
+        var countDownDate = new Date("Jan 19, 2025 00:00:00").getTime();
+
+        // Update the count down every 1 second
+        var countdownFunction = setInterval(function() {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes, and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the elements with id
+            document.getElementById("days").innerHTML = days;
+            document.getElementById("hours").innerHTML = hours;
+            document.getElementById("minutes").innerHTML = minutes;
+            document.getElementById("seconds").innerHTML = seconds;
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(countdownFunction);
+                document.getElementById("countdown").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+
+        // Generate random snowflakes
+        // Generate random snowflakes
+        function createSnowflakes() {
+            const snowflakeCount = 50;
+            for (let i = 0; i < snowflakeCount; i++) {
+                setTimeout(function() {
+                    let snowflake = document.createElement('div');
+                    snowflake.classList.add('snowflake');
+                    snowflake.style.left = Math.random() * window.innerWidth + 'px';
+                    snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    snowflake.style.backgroundColor = `rgba(255, 255, 255, ${Math.random() * 0.3 + 0.7})`;
+                    snowflake.style.transform = `translateX(${Math.random() * 100 - 50}px)`;
+                    document.body.appendChild(snowflake);
+
+                    // Remove snowflakes after 4 seconds to avoid accumulation
+                    setTimeout(function() {
+                        snowflake.remove();
+                    }, 4000);
+                }, Math.random() * 2000); // Random delay between 0 and 2 seconds for each snowflake
+            }
+        }
+
+        // Recreate snowflakes every 2 seconds to avoid too many on the screen at once
+        setInterval(createSnowflakes, 2000);
+
+    </script>
+
+</body>
+</html>
